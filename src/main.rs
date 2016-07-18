@@ -45,38 +45,33 @@ struct Address {
 
 pub fn main() {
 
-    let path = Path::new("/home/stian/projects/rosten/test.json");
+    let path = Path::new("/home/stian/projects/rosten/tracking.json");
     let display = path.display();
-
     let mut file = match File::open(&path) {
         Err(e) => panic!("unable to open {}: {}", display, e.description()),
         Ok(file) => file,
     };
+
     let mut buffer = String::new();
     file.read_to_string(&mut buffer).unwrap();
-    let data: Value = serde_json::from_str(&buffer).unwrap();
-    println!("data: {}", data);
 
-    let obj = data.as_object().unwrap();
-    let foo = obj.get("foo").unwrap();
-    println!("array? {:?}", foo.as_array());
-    println!("u64? {:?}", foo.as_u64());
+   let data: Value = serde_json::from_str(&buffer).unwrap();
+   let values = data.as_object()
+       .and_then(|object| object.get("[consignmentSet]"))
+       .and_then(|values| values.as_object())
+       .unwrap_or_else(|| {
+           panic!("Failed to get obj value from JSON");
+       });
 
-    for (key, value) in obj.iter() {
-        println!("{}: {}", key, match *value {
-            Value::String(ref v) => format!("{} (string)", v),
-            Value::U64(v) => format!("{} (u64)", v),
-            _ => format!("other match")
-        });
+    for (key, value) in values.iter() {
+        let results = value.find("consignmentId")
+            .and_then(|value| value.as_object())
+            .unwrap_or_else(|| {
+                panic!("Failed to get value");
+            });
+        println!("{} -> {:?}", key, results);
     }
 }
-
-
-
-    // TODO Implement match on wanted output instead of .unwrap()
-    // println!("{}", json.find_path(&["consignmentSet", "packageSet"]).unwrap());
-    // println!("{}", json.find_path(&{"consignmentSet", ["PhoneNumbers"] }).unwrap());
-
 
 
 
