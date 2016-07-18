@@ -18,8 +18,7 @@ use serde_json::Value;
 
 // TODO Define values corresponding to json file
 // Would an enum be better here?
-
-// TODO Depending on size, perhaps move structs to different file?
+// Depending on size, perhaps move structs to different file?
 
 struct Data {
     Firstname: String,
