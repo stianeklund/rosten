@@ -5,5 +5,5 @@ authors = ["Stian Eklund <stian.eklund@gmail.com>"]
 
 [dependencies]
 rustc-serialize = "0.3.19"
-curl = "*"
+curl = "0.3.0"
 clap = "*"
