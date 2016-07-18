@@ -27,7 +27,8 @@ use curl::easy::Easy;
 use std::fmt::Display;
 use serde_json::Value;
 
-// Define contents of JSON. Would an enum be better here?
+// TODO Define contents of JSON. Would an enum be better here?
+// Perhaps put structs in different file?
 
 struct Data {
     Firstname: String,
@@ -54,20 +55,21 @@ pub fn main() {
 
     let mut buffer = String::new();
     file.read_to_string(&mut buffer).unwrap();
-
-   let data: Value = serde_json::from_str(&buffer).unwrap();
-   let values = data.as_object()
-       .and_then(|object| object.get("[consignmentSet]"))
-       .and_then(|values| values.as_object())
-       .unwrap_or_else(|| {
-           panic!("Failed to get obj value from JSON");
-       });
+    // TODO Better names
+    let data: Value = serde_json::from_str(&buffer).unwrap();
+    // TODO Iterate over consignmentSet[array]? How?
+    let values = data.as_object()
+        .and_then(|object| object.get("consignmentSet"))
+        .and_then(|values| values.as_object())
+        .unwrap_or_else(|| {
+            panic!("Failed to get object value from json"); // currently fails here
+        });
 
     for (key, value) in values.iter() {
         let results = value.find("consignmentId")
             .and_then(|value| value.as_object())
             .unwrap_or_else(|| {
-                panic!("Failed to get value");
+                panic!("Failed to get value from within values");
             });
         println!("{} -> {:?}", key, results);
     }
