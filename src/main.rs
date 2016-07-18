@@ -1,6 +1,4 @@
- /// Rosten
-/// Track Bring packages in Rust
-/// Bring Tracking API
+/// Rosten track Bring packages in Rust
 /// For testing use "TESTPACKAGE-AT-PICKUPPOINT" as tracking number
 /// https://www.mybring.com/tracking/api
 
@@ -18,51 +16,60 @@
 
 extern crate curl;
 extern crate clap;
-extern crate rustc_serialize;
+extern crate serde_json;
 
 use std::env;
 use std::io::prelude::*;
 use std::fs::File;
 use std::path::Path;
 use std::error::Error;
-use rustc_serialize::json::Json;
 use curl::easy::Easy;
 use std::fmt::Display;
+use serde_json::Value;
+
+// Define contents of JSON. Would an enum be better here?
+
+struct Data {
+    Firstname: String,
+    Lastname: String,
+    Age: u32,
+    Address: Address,
+    PhoneNumber: Vec<String>
+}
+// Do we need to define everything in tracking.json?
+struct Address {
+    Street: String,
+    City: String,
+    Country: String
+}
 
 pub fn main() {
 
-    let path = Path::new("~/projects/rosten/tracking.json");
+    let path = Path::new("/home/stian/projects/rosten/test.json");
     let display = path.display();
 
     let mut file = match File::open(&path) {
         Err(e) => panic!("unable to open {}: {}", display, e.description()),
         Ok(file) => file,
     };
-    // #[derive(RustcDecodable, RustcEncodable)]
     let mut buffer = String::new();
     file.read_to_string(&mut buffer).unwrap();
-    let data = Json::from_str(&buffer).unwrap_or_else(|e| {
-        panic!("Failed to parse JSON, error: {}", e);
-    });
-    // println!("data: {}", data);
-    let obj = data.as_object().unwrap();
-    // let foo = obj.get("foo");
+    let data: Value = serde_json::from_str(&buffer).unwrap();
+    println!("data: {}", data);
 
-    // println!("array? {:?}", foo.as_array());
-    // println!("u64? {:?}", foo.as_u64());
-    // println!("data: {}", data);
-    let mut parsed_data = String::new();
+    let obj = data.as_object().unwrap();
+    let foo = obj.get("foo").unwrap();
+    println!("array? {:?}", foo.as_array());
+    println!("u64? {:?}", foo.as_u64());
+
     for (key, value) in obj.iter() {
-        // println!("{}: {}", key, match *value {
-        let parsed_data = match *value {
-            Json::String(ref v) => format!("{} (string)", v),
-            Json::Array(ref v) => format!("{:?} (array)", v),
-            Json::Object(ref v) => format!("{:?} (object)", v),
-            Json::U64(v) => format!("{} (u64)", v),
+        println!("{}: {}", key, match *value {
+            Value::String(ref v) => format!("{} (string)", v),
+            Value::U64(v) => format!("{} (u64)", v),
             _ => format!("other match")
-        };
+        });
     }
-    }
+}
 
 
 
