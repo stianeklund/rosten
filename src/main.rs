@@ -16,24 +16,8 @@ use curl::easy::Easy;
 use std::fmt::Display;
 use serde_json::Value;
 
-// TODO Define values corresponding to json file
-// Would an enum be better here?
-// Depending on size, perhaps move structs to different file?
-
-struct Data {
-    Firstname: String,
-    Lastname: String,
-    Age: u32,
-    Address: Address,
-    PhoneNumber: Vec<String>
-}
-// Do we need to define everything in tracking.json?
-// Is it enough to assign whatever matches to needed values?
-struct Address {
-    Street: String,
-    City: String,
-    Country: String
-}
+// response.rs contains structs for API response.
+mod response;
 
 pub fn main() {
 
