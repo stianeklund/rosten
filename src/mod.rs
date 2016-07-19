@@ -1,2 +1,2 @@
-pub mod response;
-pub use self::response::Response;
+pub mod json_response;
+pub use self::json_response::Response;
