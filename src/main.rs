@@ -3,22 +3,22 @@
 /// For testing use "TESTPACKAGE-AT-PICKUPPOINT" as tracking number
 /// https://www.mybring.com/tracking/api
 
-
-extern crate curl;
-extern crate clap;
 extern crate rustc_serialize;
-mod response;
+extern crate hyper;
 
-use std::env;
-use std::io::prelude::*;
+mod json_response;
+
+use std::io::Read;
 use std::fs::File;
 use std::path::Path;
 use std::error::Error;
-use curl::easy::Easy;
 use rustc_serialize::json;
-use response::Response;
+use hyper::{Client};
+use json_response::BringResponse;
 
 pub fn main() {
+    let client = Client::new();
+    let url = "https://www.mybring.com/tracking/api";
 
     // TODO Figure out ~/ path so compiler can find the file easily
     let path = Path::new("/home/stian/projects/rosten/tracking.json");
@@ -29,13 +29,13 @@ pub fn main() {
     Ok(file) => file,
     };
 
-    // Do I need to read into a buffer first? Does this affect type?
     let mut buffer = String::new();
     file.read_to_string(&mut buffer).unwrap();
 
     // TODO Better names
-    let deserialize :Response = json::decode(&buffer).unwrap();
+    let deserialize :BringResponse = json::decode(&buffer).unwrap();
     let sets = deserialize.consignmentSet;
+    // Iterate over consignmentSet and get package status description
     for i in 0..sets.len() {
         let set = &sets[i];
         println!("Sets is {}", set.senderName);
