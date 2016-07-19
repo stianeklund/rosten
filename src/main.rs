@@ -9,31 +9,27 @@ extern crate hyper;
 mod json_response;
 
 use std::io::Read;
-use std::fs::File;
-use std::path::Path;
-use std::error::Error;
 use rustc_serialize::json;
 use hyper::{Client};
 use json_response::BringResponse;
 
 pub fn main() {
+
+    // TODO Implement query
+    // Wrap in function?
+    let url = "https://tracking.bring.com/tracking.json?q=TESTPACKAGE-AT-PICKUPPOINT";
     let client = Client::new();
-    let url = "https://www.mybring.com/tracking/api";
-
-    // TODO Figure out ~/ path so compiler can find the file easily
-    let path = Path::new("/home/stian/projects/rosten/tracking.json");
-    let display = path.display();
-
-    let mut file = match File::open(&path) {
-    Err(e) => panic!("unable to open {}: {}", display, e.description()),
-    Ok(file) => file,
+    let mut response = match client.get(url).send() {
+        Ok(response) => response,
+        Err(_) => panic!("Failed to get http response"),
+    };
+    let mut buf = String::new();
+    match response.read_to_string(&mut buf) {
+        Ok(buf) => buf,
+        Err(_) => panic!("Failed to read to buffer"),
     };
 
-    let mut buffer = String::new();
-    file.read_to_string(&mut buffer).unwrap();
-
-    // TODO Better names
-    let deserialize :BringResponse = json::decode(&buffer).unwrap();
+    let deserialize :BringResponse = json::decode(&buf).unwrap();
     let sets = deserialize.consignmentSet;
     // Iterate over consignmentSet and get package status description
     for i in 0..sets.len() {
