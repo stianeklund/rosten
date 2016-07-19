@@ -1,2 +1,4 @@
 Rosten
 Bring / Posten tracking in Rust
+
+Note: This API implementation is for learning purposes and is far from functional.
