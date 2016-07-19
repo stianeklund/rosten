@@ -15,8 +15,7 @@ use json_response::BringResponse;
 
 pub fn main() {
 
-    // TODO Implement query
-    // Wrap in function?
+    // TODO Implement http query, check hyper docu
     let url = "https://tracking.bring.com/tracking.json?q=TESTPACKAGE-AT-PICKUPPOINT";
     let client = Client::new();
     let mut response = match client.get(url).send() {
@@ -28,7 +27,8 @@ pub fn main() {
         Ok(buf) => buf,
         Err(_) => panic!("Failed to read to buffer"),
     };
-
+    // TODO Iterate over more fields & query local buffer
+    // Wrap into separate parse function
     let deserialize :BringResponse = json::decode(&buf).unwrap();
     let sets = deserialize.consignmentSet;
     // Iterate over consignmentSet and get package status description
@@ -38,7 +38,7 @@ pub fn main() {
         for x in 0..set.packageSet.len() {
             let package_set = &set.packageSet[x];
             println!("Packageset number is {}", x);
-            println!("Packageset is {}", package_set.statusDescription);
+            println!("Status is: {}", package_set.statusDescription);
         }
     }
 }
