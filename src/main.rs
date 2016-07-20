@@ -10,7 +10,6 @@ mod json_response;
 
 use std::io;
 use std::io::Read;
-use std::fmt::Display;
 use rustc_serialize::json;
 use hyper::{Client};
 use json_response::BringResponse;
@@ -33,10 +32,12 @@ pub fn main() {
         try!(response.read_to_string(&mut buf));
         Ok(buf)
     }
-    // TODO Figure out how to return &str for json::decode
-    let buf = get_content(url);
+
+    let buf = get_content(url).unwrap();
+    // Here we pass & coerce &String (result of get_content) to json::decode
     let deserialize :BringResponse = json::decode(&buf).unwrap();
     let sets = deserialize.consignmentSet;
+
     for i in 0..sets.len() {
         let set = &sets[i];
         println!("Sets is {}", set.senderName);
@@ -44,7 +45,6 @@ pub fn main() {
             let package_set = &set.packageSet[x];
             println!("Packageset number is {}", x);
             println!("Status is: {}", package_set.statusDescription);
-
-            }
         }
     }
+}
