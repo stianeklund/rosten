@@ -4,6 +4,5 @@ version = "0.1.0"
 authors = ["Stian Eklund <stian.eklund@gmail.com>"]
 
 [dependencies]
-serde_json = "*"
-curl = "0.3.0"
-clap = "*"
+rustc-serialize= "*"
+hyper = "*"
