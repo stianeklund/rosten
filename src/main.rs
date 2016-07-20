@@ -8,30 +8,35 @@ extern crate hyper;
 
 mod json_response;
 
+use std::io;
 use std::io::Read;
+use std::fmt::Display;
 use rustc_serialize::json;
 use hyper::{Client};
 use json_response::BringResponse;
 
 pub fn main() {
 
+    // Read user input
+    println!("Enter tracking number:");
+    let mut input = String::new();
+    io::stdin().read_line(&mut input);
+
     // TODO Implement http query, check hyper docu
-    let url = "https://tracking.bring.com/tracking.json?q=TESTPACKAGE-AT-PICKUPPOINT";
-    let client = Client::new();
-    let mut response = match client.get(url).send() {
-        Ok(response) => response,
-        Err(_) => panic!("Failed to get http response"),
-    };
-    let mut buf = String::new();
-    match response.read_to_string(&mut buf) {
-        Ok(buf) => buf,
-        Err(_) => panic!("Failed to read to buffer"),
-    };
-    // TODO Iterate over more fields & query local buffer
-    // Wrap into separate parse function
+    let url = format!("https://tracking.bring.com/tracking.json?q={}", input);
+    let url = url.as_str(); // convert &str into a String
+
+    fn get_content(url: &str) -> hyper::Result<String> {
+        let client = Client::new();
+        let mut response = try!(client.get(url).send());
+        let mut buf = String::new();
+        try!(response.read_to_string(&mut buf));
+        Ok(buf)
+    }
+    // TODO Figure out how to return &str for json::decode
+    let buf = get_content(url);
     let deserialize :BringResponse = json::decode(&buf).unwrap();
     let sets = deserialize.consignmentSet;
-    // Iterate over consignmentSet and get package status description
     for i in 0..sets.len() {
         let set = &sets[i];
         println!("Sets is {}", set.senderName);
@@ -39,6 +44,7 @@ pub fn main() {
             let package_set = &set.packageSet[x];
             println!("Packageset number is {}", x);
             println!("Status is: {}", package_set.statusDescription);
+
+            }
         }
     }
-}
