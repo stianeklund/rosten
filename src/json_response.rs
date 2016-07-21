@@ -19,8 +19,8 @@ pub struct EventsetDefinition {
 }
 #[derive(RustcDecodable, Debug)]
 pub struct Eventset {
-    pub description: Option<String>,
-    pub status: Option<String>,
+    pub description: String,
+    pub status: String,
     pub recipientSignature: Option<Recipientsignature>,
     pub unitId: Option<String>,
     pub unitInformationUrl: Option<String>,
@@ -59,8 +59,8 @@ pub struct Packageset {
 
 #[derive(RustcDecodable, Debug)]
 pub struct Consignmentset {
-    pub consignmentId: String,
-    pub previousConsignmentId: String,
+    pub consignmentId: Option<String>,
+    pub previousConsignmentId: Option<String>,
     pub packageSet: Vec<Packageset>,
     pub senderName: Option<String>,
     pub senderAddress: Option<Senderaddress>,
