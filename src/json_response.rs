@@ -1,38 +1,37 @@
-// TODO Better struct names
 #![allow(non_snake_case)]
 #[derive(RustcDecodable, Debug)]
 pub struct Senderaddress {
-    pub addressLine1: String,
-    pub addressLine2: String,
-    pub postalCode: String,
-    pub city: String,
-    pub countryCode: String,
-    pub country: String,
+    pub addressLine1: Option<String>,
+    pub addressLine2: Option<String>,
+    pub postalCode: Option<String>,
+    pub city: Option<String>,
+    pub countryCode: Option<String>,
+    pub country: Option<String>,
 }
 #[derive(RustcDecodable, Debug)]
 pub struct Recipientsignature {
-    pub name: String,
+    pub name: Option<String>,
 }
 #[derive(RustcDecodable, Debug)]
 pub struct EventsetDefinition {
-    pub term: String,
-    pub explanation: String,
+    pub term: Option<String>,
+    pub explanation: Option<String>,
 }
 #[derive(RustcDecodable, Debug)]
 pub struct Eventset {
-    pub description: String,
-    pub status: String,
-    pub recipientSignature: Recipientsignature,
-    pub unitId: String,
+    pub description: Option<String>,
+    pub status: Option<String>,
+    pub recipientSignature: Option<Recipientsignature>,
+    pub unitId: Option<String>,
     pub unitInformationUrl: Option<String>,
-    pub unitType: String,
-    pub postalCode: String,
-    pub city: String,
-    pub countryCode: String,
-    pub country: String,
-    pub dateIso: String,
-    pub displayDate: String,
-    pub displayTime: String,
+    pub unitType: Option<String>,
+    pub postalCode: Option<String>,
+    pub city: Option<String>,
+    pub countryCode: Option<String>,
+    pub country: Option<String>,
+    pub dateIso: Option<String>,
+    pub displayDate: Option<String>,
+    pub displayTime: Option<String>,
     pub consignmentEvent: bool,
     pub definitions: Option<Vec<EventsetDefinition>>
 }
@@ -41,20 +40,20 @@ pub struct Packageset {
     pub statusDescription: String,
     pub descriptions: Vec<String>,
     pub packageNumber: String,
-    pub previousPackageNumber: String,
-    pub productName: String,
-    pub productCode: String,
-    pub brand: String,
-    pub lengthInCm: i64,
-    pub widthInCm: i64,
-    pub heightInCm: i64,
-    pub volumeInDm3: f64,
-    pub weightInKgs: f64,
-    pub pickupCode: String,
-    pub dateOfReturn: String,
-    pub senderName: String,
-    pub senderAddress: Senderaddress,
-    pub recipientHandlingAddress: Senderaddress,
+    pub previousPackageNumber: Option<String>,
+    pub productName: Option<String>,
+    pub productCode: Option<String>,
+    pub brand: Option<String>,
+    pub lengthInCm: Option<i64>,
+    pub widthInCm: Option<i64>,
+    pub heightInCm: Option<i64>,
+    pub volumeInDm3: Option<f64>,
+    pub weightInKgs: Option<f64>,
+    pub pickupCode: Option<String>,
+    pub dateOfReturn: Option<String>,
+    pub senderName: Option<String>,
+    pub senderAddress: Option<Senderaddress>,
+    pub recipientHandlingAddress: Option<Senderaddress>,
     pub eventSet: Vec<Eventset>,
 }
 
@@ -63,12 +62,12 @@ pub struct Consignmentset {
     pub consignmentId: String,
     pub previousConsignmentId: String,
     pub packageSet: Vec<Packageset>,
-    pub senderName: String,
-    pub senderAddress: Senderaddress,
-    pub recipientHandlingAddress: Senderaddress,
-    pub senderReference: String,
-    pub totalWeightInKgs: f64,
-    pub totalVolumeInDm3: f64,
+    pub senderName: Option<String>,
+    pub senderAddress: Option<Senderaddress>,
+    pub recipientHandlingAddress: Option<Senderaddress>,
+    pub senderReference: Option<String>,
+    pub totalWeightInKgs: Option<f64>,
+    pub totalVolumeInDm3: Option<f64>,
 }
 #[derive(RustcDecodable, Debug)]
 pub struct BringResponse {
