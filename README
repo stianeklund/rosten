@@ -1,4 +1,15 @@
-Rosten
-Bring / Posten tracking in Rust
+Rosten 1.0
+Stian Eklund. <stiane@protonmail.com>
+Get shipment status of your Bring / Posten packages
 
-Note: This API implementation is for learning purposes and is far from functional.
+USAGE:
+    rosten [OPTIONS]
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+OPTIONS:
+    -t, --track <track>    Get package status
+
+Note: This API implementation is for learning purposes, this is not a complete fully featured implementation.
