@@ -6,3 +6,4 @@ authors = ["Stian Eklund <stian.eklund@gmail.com>"]
 [dependencies]
 rustc-serialize= "*"
 hyper = "*"
+clap = "*"
