@@ -1,3 +1,5 @@
+// TODO Rename structs to snake_case
+// TODO serde code_gen for backwards compatibility
 #![allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct Error {
