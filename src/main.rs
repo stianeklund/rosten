@@ -12,11 +12,12 @@ extern crate hyper;
 extern crate clap;
 
 mod json_response;
+// mod json_test;
 use std::io::Read;
 use hyper::{Client};
 use clap::{Arg, App};
-use json_response::BringResponse;
-
+use json_response::{BringResponse, Json};
+// use json_test::Json;
 pub fn main() {
     let matches = App::new("Rosten")
         .version("1.0")
@@ -48,7 +49,7 @@ pub fn main() {
         let deserialized: Result<BringResponse, serde_json::Error> = serde_json::from_str(&buf);
         match deserialized {
             Ok(deserialized) => {
-            let sets = deserialized.consignmentSet;
+                let sets = deserialized.consignmentSet;
                 for i in 0..sets.len() {
                     let consignment_set = &sets[i];
                     for x in 0..consignment_set.packageSet.len() {
@@ -64,16 +65,17 @@ pub fn main() {
                     }
                 }
             },
-            Err(deserialized_err) => {
-            let sets = deserialized.consignmentSet;
-                for i in 0..sets.len() {
-                    let consignment_set = &sets[i];
-                    for k in 0..consignment_set.error.len() {
-                        let error = &consignment_set.error[k];
-                        println!("Error code: {:?}. Error msg: {:?}", error.code, error.message);
-                    }
-                }
-            }
+            Err(_) => deserialize_err(&buf)
+        }
+    }
+    fn deserialize_err(buf: &str) {
+        let deserialized: Result<Json, serde_json::Error> = serde_json::from_str(&buf);
+        match deserialized {
+            Ok(deserialized) => {
+                let set = deserialized.consignmentSet;
+                println!("Check your tracking number. {:?}, code: {:?}", &set[0].error.message, &set[0].error.code);
+            },
+            Err(_) => println!("Error deserializing error response")
         }
     }
     deserialize(&buf);

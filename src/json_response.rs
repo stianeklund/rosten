@@ -1,10 +1,16 @@
 #![allow(non_snake_case)]
-
 #[derive(Deserialize, Debug)]
-pub struct ConsignmentsetError {
-    #[serde(default)]
-    pub code: Option<i64>,
-    pub message: Option<String>,
+pub struct Error {
+    pub code: i64,
+    pub message: String,
+}
+#[derive(Deserialize, Debug)]
+pub struct ErrorConsignmentSet {
+    pub error: Error
+}
+#[derive(Deserialize, Debug)]
+pub struct Json {
+    pub consignmentSet: Vec<ErrorConsignmentSet>,
 }
 #[derive(Deserialize, Debug)]
 pub struct Senderaddress {
@@ -74,8 +80,6 @@ pub struct Consignmentset {
     pub senderReference: Option<String>,
     pub totalWeightInKgs: Option<f64>,
     pub totalVolumeInDm3: Option<f64>,
-    #[serde(default)]
-    pub error: Vec<ConsignmentsetError>, // This probably shouldn't be a Vec?
 }
 #[derive(Deserialize, Debug)]
 pub struct BringResponse {
