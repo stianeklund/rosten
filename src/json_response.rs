@@ -1,12 +1,12 @@
 #![allow(non_snake_case)]
-#[derive(Serialize, Deserialize, Debug)]
 
+#[derive(Deserialize, Debug)]
 pub struct ConsignmentsetError {
     #[serde(skip_serializing_if="Option::is_none")]
     pub code: Option<i64>,
     pub message: Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Deserialize, Debug)]
 pub struct Senderaddress {
     pub addressLine1: Option<String>,
     pub addressLine2: Option<String>,
@@ -15,16 +15,16 @@ pub struct Senderaddress {
     pub countryCode: Option<String>,
     pub country: Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Deserialize, Debug)]
 pub struct Recipientsignature {
     pub name: Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Deserialize, Debug)]
 pub struct EventsetDefinition {
     pub term: Option<String>,
     pub explanation: Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Deserialize, Debug)]
 pub struct Eventset {
     pub description: String,
     pub status: String,
@@ -42,7 +42,7 @@ pub struct Eventset {
     pub consignmentEvent: bool,
     pub definitions: Option<Vec<EventsetDefinition>>
 }
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Deserialize, Debug)]
 pub struct Packageset {
     pub statusDescription: String,
     pub descriptions: Vec<String>,
@@ -63,7 +63,7 @@ pub struct Packageset {
     pub recipientHandlingAddress: Option<Senderaddress>,
     pub eventSet: Vec<Eventset>,
 }
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Deserialize, Debug)]
 pub struct Consignmentset {
     pub consignmentId: Option<String>,
     pub previousConsignmentId: Option<String>,
@@ -74,10 +74,10 @@ pub struct Consignmentset {
     pub senderReference: Option<String>,
     pub totalWeightInKgs: Option<f64>,
     pub totalVolumeInDm3: Option<f64>,
-    #[serde(skip_serializing_if="Vec::is_empty")]
+    #[serde(default)]
     pub error: Vec<ConsignmentsetError>, // This probably shouldn't be a Vec?
 }
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Deserialize, Debug)]
 pub struct BringResponse {
     pub consignmentSet: Vec<Consignmentset>,
 }
