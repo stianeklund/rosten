@@ -47,8 +47,8 @@ pub fn main() {
         // let deserialized: BringResponse = serde_json::from_str(&buf).unwrap();
         let deserialized: Result<BringResponse, serde_json::Error> = serde_json::from_str(&buf);
         match deserialized {
-            Ok(value) => {
-                let sets = deserialized.consignmentSet; // unable to access this field
+            Ok(deserialized) => {
+            let sets = deserialized.consignmentSet;
                 for i in 0..sets.len() {
                     let consignment_set = &sets[i];
                     for x in 0..consignment_set.packageSet.len() {
@@ -64,8 +64,8 @@ pub fn main() {
                     }
                 }
             },
-            Err(value) => {
-                let sets = deserialized.consignmentSet;
+            Err(deserialized_err) => {
+            let sets = deserialized.consignmentSet;
                 for i in 0..sets.len() {
                     let consignment_set = &sets[i];
                     for k in 0..consignment_set.error.len() {
