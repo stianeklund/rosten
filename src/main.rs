@@ -44,32 +44,38 @@ pub fn main() {
     let buf = get_content(url).unwrap();
 
     fn deserialize(buf: &str) {
-        let deserialize: BringResponse = serde_json::from_str(&buf).unwrap();
-        let sets = deserialize.consignmentSet;
-
-        // TODO Handle the case where API returns error
-        for k in 0..consignment_set.error.len() {
-            let error = &consignment_set.error[k];
-            println!("Error code: {:?}. Error msg: {:?}", error.code, error.message);
-            for i in 0..sets.len() {
-                let consignment_set = &sets[i];
-                for x in 0..consignment_set.packageSet.len() {
-                    let package_set = &consignment_set.packageSet[x];
-                    println!("Package number: {}", package_set.packageNumber);
-                    println!("Sender name: {}", package_set.senderName);
-                    for n in 0..package_set.eventSet.len() {
-                        let event_set = &package_set.eventSet[n];
-                        println!("Event status: {}", event_set.status);
-                        println!("Event description: {}", event_set.description);
-                        break;
+        // let deserialized: BringResponse = serde_json::from_str(&buf).unwrap();
+        // let deserialized: Result<BringResponse, serde_json::Error> = serde_json::from_str(&buf);
+        let deserialized: Result<BringResponse, serde_json::Error> = serde_json::from_str(&buf);
+        match *deserialized{
+            Ok(value) => {
+                let sets = deserialized.consignmentSet;
+                for i in 0..sets.len() {
+                    let consignment_set = &sets[i];
+                    for x in 0..consignment_set.packageSet.len() {
+                        let package_set = &consignment_set.packageSet[x];
+                        println!("Package number: {}", package_set.packageNumber);
+                        println!("Sender name: {}", package_set.senderName);
+                        for n in 0..package_set.eventSet.len() {
+                            let event_set = &package_set.eventSet[n];
+                            println!("Event status: {}", event_set.status);
+                            println!("Event description: {}", event_set.description);
+                            break;
+                        }
+                    }
+                }
+            },
+            Err(value) => {
+                let sets = deserialized.consignmentSet;
+                for i in 0..sets.len() {
+                    let consignment_set = &sets[i];
+                    for k in 0..consignment_set.error.len() {
+                        let error = &consignment_set.error[k];
+                        println!("Error code: {:?}. Error msg: {:?}", error.code, error.message);
                     }
                 }
             }
         }
     }
-
-   deserialize(&buf);
+    deserialize(&buf);
 }
-
-
-
