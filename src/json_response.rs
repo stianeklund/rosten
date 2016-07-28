@@ -1,5 +1,12 @@
 #![allow(non_snake_case)]
-#[derive(RustcDecodable, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
+
+pub struct ConsignmentsetError {
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub code: Option<i64>,
+    pub message: Option<String>,
+}
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Senderaddress {
     pub addressLine1: Option<String>,
     pub addressLine2: Option<String>,
@@ -8,16 +15,16 @@ pub struct Senderaddress {
     pub countryCode: Option<String>,
     pub country: Option<String>,
 }
-#[derive(RustcDecodable, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Recipientsignature {
     pub name: Option<String>,
 }
-#[derive(RustcDecodable, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct EventsetDefinition {
     pub term: Option<String>,
     pub explanation: Option<String>,
 }
-#[derive(RustcDecodable, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Eventset {
     pub description: String,
     pub status: String,
@@ -35,7 +42,7 @@ pub struct Eventset {
     pub consignmentEvent: bool,
     pub definitions: Option<Vec<EventsetDefinition>>
 }
-#[derive(RustcDecodable, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Packageset {
     pub statusDescription: String,
     pub descriptions: Vec<String>,
@@ -51,13 +58,12 @@ pub struct Packageset {
     pub weightInKgs: Option<f64>,
     pub pickupCode: Option<String>,
     pub dateOfReturn: Option<String>,
-    pub senderName: Option<String>,
+    pub senderName: String,
     pub senderAddress: Option<Senderaddress>,
     pub recipientHandlingAddress: Option<Senderaddress>,
     pub eventSet: Vec<Eventset>,
 }
-
-#[derive(RustcDecodable, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Consignmentset {
     pub consignmentId: Option<String>,
     pub previousConsignmentId: Option<String>,
@@ -68,8 +74,10 @@ pub struct Consignmentset {
     pub senderReference: Option<String>,
     pub totalWeightInKgs: Option<f64>,
     pub totalVolumeInDm3: Option<f64>,
+    #[serde(skip_serializing_if="Vec::is_empty")]
+    pub error: Vec<ConsignmentsetError>, // This probably shouldn't be a Vec?
 }
-#[derive(RustcDecodable, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct BringResponse {
     pub consignmentSet: Vec<Consignmentset>,
 }
