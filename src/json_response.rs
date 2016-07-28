@@ -2,7 +2,7 @@
 
 #[derive(Deserialize, Debug)]
 pub struct ConsignmentsetError {
-    #[serde(skip_serializing_if="Option::is_none")]
+    #[serde(default)]
     pub code: Option<i64>,
     pub message: Option<String>,
 }
