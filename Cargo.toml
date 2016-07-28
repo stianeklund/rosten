@@ -4,6 +4,9 @@ version = "0.1.0"
 authors = ["Stian Eklund <stian.eklund@gmail.com>"]
 
 [dependencies]
-rustc-serialize= "*"
+serde = "*"
+serde_macros = "*"
+serde_json = "*"
 hyper = "*"
 clap = "*"
+
