@@ -1,20 +1,21 @@
+#![feature(custom_derive, plugin)]
+#![plugin(serde_macros)]
+
 /// Rosten
 /// Track Bring packages in Rust
 /// For testing use "TESTPACKAGE-AT-PICKUPPOINT" as tracking number
 /// https://www.mybring.com/tracking/api
 
-#[macro_use]
-extern crate rustc_serialize;
+extern crate serde;
+extern crate serde_json;
 extern crate hyper;
 extern crate clap;
 
 mod json_response;
 use std::io::Read;
-use rustc_serialize::json;
 use hyper::{Client};
 use clap::{Arg, App};
 use json_response::BringResponse;
-
 
 pub fn main() {
     let matches = App::new("Rosten")
@@ -43,23 +44,32 @@ pub fn main() {
     let buf = get_content(url).unwrap();
 
     fn deserialize(buf: &str) {
-        // pass & coerce &String (result of get_content) to json::decode
-        let deserialize: BringResponse = json::decode(&buf).unwrap();
+        let deserialize: BringResponse = serde_json::from_str(&buf).unwrap();
         let sets = deserialize.consignmentSet;
-        for i in 0..sets.len() {
-            let consignment_set = &sets[i];
-            for x in 0..consignment_set.packageSet.len() {
-                let package_set = &consignment_set.packageSet[x];
-                println!("Package number: {}", package_set.packageNumber);
-                println!("Sender name: {:?}", package_set.senderName);
-                for n in 0..package_set.eventSet.len() {
-                    let event_set = &package_set.eventSet[n];
-                    println!("Event status: {}", event_set.status);
-                    println!("Event description: {}", event_set.description);
-                    break;
-                 }
-             }
-         }
+
+        // TODO Handle the case where API returns error
+        for k in 0..consignment_set.error.len() {
+            let error = &consignment_set.error[k];
+            println!("Error code: {:?}. Error msg: {:?}", error.code, error.message);
+            for i in 0..sets.len() {
+                let consignment_set = &sets[i];
+                for x in 0..consignment_set.packageSet.len() {
+                    let package_set = &consignment_set.packageSet[x];
+                    println!("Package number: {}", package_set.packageNumber);
+                    println!("Sender name: {}", package_set.senderName);
+                    for n in 0..package_set.eventSet.len() {
+                        let event_set = &package_set.eventSet[n];
+                        println!("Event status: {}", event_set.status);
+                        println!("Event description: {}", event_set.description);
+                        break;
+                    }
+                }
+            }
+        }
     }
-    deserialize(&buf);
+
+   deserialize(&buf);
 }
+
+
+
