@@ -12,12 +12,11 @@ extern crate hyper;
 extern crate clap;
 
 mod json_response;
-// mod json_test;
 use std::io::Read;
 use hyper::{Client};
 use clap::{Arg, App};
 use json_response::{BringResponse, Json};
-// use json_test::Json;
+
 pub fn main() {
     let matches = App::new("Rosten")
         .version("1.0")
@@ -45,13 +44,13 @@ pub fn main() {
     let buf = get_content(url).unwrap();
 
     fn deserialize(buf: &str) {
-        // let deserialized: BringResponse = serde_json::from_str(&buf).unwrap();
         let deserialized: Result<BringResponse, serde_json::Error> = serde_json::from_str(&buf);
         match deserialized {
             Ok(deserialized) => {
                 let sets = deserialized.consignmentSet;
                 for i in 0..sets.len() {
                     let consignment_set = &sets[i];
+
                     for x in 0..consignment_set.packageSet.len() {
                         let package_set = &consignment_set.packageSet[x];
                         println!("Package number: {}", package_set.packageNumber);
