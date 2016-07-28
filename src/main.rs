@@ -45,11 +45,10 @@ pub fn main() {
 
     fn deserialize(buf: &str) {
         // let deserialized: BringResponse = serde_json::from_str(&buf).unwrap();
-        // let deserialized: Result<BringResponse, serde_json::Error> = serde_json::from_str(&buf);
         let deserialized: Result<BringResponse, serde_json::Error> = serde_json::from_str(&buf);
-        match *deserialized{
+        match deserialized {
             Ok(value) => {
-                let sets = deserialized.consignmentSet;
+                let sets = deserialized.consignmentSet; // unable to access this field
                 for i in 0..sets.len() {
                     let consignment_set = &sets[i];
                     for x in 0..consignment_set.packageSet.len() {
