@@ -2,11 +2,20 @@
 name = "rosten"
 version = "0.1.0"
 authors = ["Stian Eklund <stian.eklund@gmail.com>"]
+build= "build.rs"
+
+[features]
+default = ["serde_codegen"]
+nightly = ["serde_macros"]
+
+[build-dependencies]
+serde_codegen = { version = "*", optional = true }
 
 [dependencies]
 serde = "*"
-serde_macros = "*"
+serde_macros = { version = "*", optional = true }
 serde_json = "*"
 hyper = "*"
 clap = "*"
+
 
