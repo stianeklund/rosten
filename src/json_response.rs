@@ -1,5 +1,4 @@
-// TODO Rename structs to snake_case
-// TODO serde code_gen for backwards compatibility
+// TODO #[serde(rename(deserialize="name1"))]
 #![allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct Error {
@@ -15,7 +14,7 @@ pub struct Json {
     pub consignmentSet: Vec<ErrorConsignmentSet>,
 }
 #[derive(Deserialize, Debug)]
-pub struct Senderaddress {
+pub struct PackagesetSenderaddress {
     pub addressLine1: Option<String>,
     pub addressLine2: Option<String>,
     pub postalCode: Option<String>,
@@ -34,11 +33,10 @@ pub struct EventsetDefinition {
 }
 #[derive(Deserialize, Debug)]
 pub struct Eventset {
-    pub description: String,
-    pub status: String,
+    pub description: Option<String>,
+    pub status: Option<String>,
     pub recipientSignature: Option<Recipientsignature>,
     pub unitId: Option<String>,
-    pub unitInformationUrl: Option<String>,
     pub unitType: Option<String>,
     pub postalCode: Option<String>,
     pub city: Option<String>,
@@ -47,14 +45,15 @@ pub struct Eventset {
     pub dateIso: Option<String>,
     pub displayDate: Option<String>,
     pub displayTime: Option<String>,
-    pub consignmentEvent: bool,
-    pub definitions: Option<Vec<EventsetDefinition>>
+    pub consignmentEvent: Option<bool>,
+    pub definitions: Option<Vec<EventsetDefinition>>,
+    pub unitInformationUrl: Option<String>,
 }
 #[derive(Deserialize, Debug)]
 pub struct Packageset {
-    pub statusDescription: String,
-    pub descriptions: Vec<String>,
-    pub packageNumber: String,
+    pub statusDescription: Option<String>,
+    pub descriptions: Option<Vec<String>>,
+    pub packageNumber: Option<String>,
     pub previousPackageNumber: Option<String>,
     pub productName: Option<String>,
     pub productCode: Option<String>,
@@ -66,9 +65,9 @@ pub struct Packageset {
     pub weightInKgs: Option<f64>,
     pub pickupCode: Option<String>,
     pub dateOfReturn: Option<String>,
-    pub senderName: String,
-    pub senderAddress: Option<Senderaddress>,
-    pub recipientHandlingAddress: Option<Senderaddress>,
+    pub senderName: Option<String>,
+    pub senderAddress: Option<PackagesetSenderaddress>,
+    pub recipientHandlingAddress: Option<PackagesetSenderaddress>,
     pub eventSet: Vec<Eventset>,
 }
 #[derive(Deserialize, Debug)]
@@ -77,8 +76,8 @@ pub struct Consignmentset {
     pub previousConsignmentId: Option<String>,
     pub packageSet: Vec<Packageset>,
     pub senderName: Option<String>,
-    pub senderAddress: Option<Senderaddress>,
-    pub recipientHandlingAddress: Option<Senderaddress>,
+    pub senderAddress: Option<PackagesetSenderaddress>,
+    pub recipientHandlingAddress: Option<PackagesetSenderaddress>,
     pub senderReference: Option<String>,
     pub totalWeightInKgs: Option<f64>,
     pub totalVolumeInDm3: Option<f64>,
