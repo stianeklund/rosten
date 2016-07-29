@@ -12,4 +12,7 @@ FLAGS:
 OPTIONS:
     -t, --track <track>    Get package status
 
+
 Note: This API implementation is for learning purposes, this is not a complete fully featured implementation.
+Now uses Serde with Rust stable compatibility though code_gen, this means the main.rs is mostly empty and generated on build.
+You can find the main program in main.rs.in.
