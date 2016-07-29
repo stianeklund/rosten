@@ -45,12 +45,12 @@ pub fn main() {
 
                     for x in 0..consignment_set.packageSet.len() {
                         let package_set = &consignment_set.packageSet[x];
-                        println!("Package number: {}", package_set.packageNumber);
-                        println!("Sender name: {}", package_set.senderName);
+                        println!("Package number: {:?}", package_set.packageNumber);
+                        println!("Sender name: {:?}", package_set.senderName);
                         for n in 0..package_set.eventSet.len() {
                             let event_set = &package_set.eventSet[n];
-                            println!("Event status: {}", event_set.status);
-                            println!("Event description: {}", event_set.description);
+                            println!("Event status: {:?}", event_set.status);
+                            println!("Event description: {:?}", event_set.description);
                             break;
                         }
                     }
