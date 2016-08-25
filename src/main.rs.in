@@ -6,7 +6,7 @@ extern crate clap;
 mod json_response;
 use std::io::Read;
 use hyper::{Client};
-use clap::{Arg, App};
+use clap::{App, Arg, AppSettings};
 use json_response::{BringResponse, Json};
 
 pub fn main() {
@@ -14,14 +14,15 @@ pub fn main() {
         .version("1.0")
         .author("Stian Eklund. <stiane@protonmail.com>")
         .about("Get shipment status of your Bring / Posten packages")
+        .setting(AppSettings::ArgRequiredElseHelp) // display help text if no args present at runtime
         .arg(Arg::with_name("track")
-             .help("Get package status")
              .short("t")
              .long("track")
+             .help("Get package status")
              .takes_value(true))
         .get_matches();
 
-    let input = matches.value_of("track").unwrap();
+    let input = matches.value_of("track").unwrap_or("track");
     let url = format!("https://tracking.bring.com/tracking.json?q={}", input);
     let url = url.as_str(); // convert &str into a String
 
