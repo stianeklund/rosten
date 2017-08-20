@@ -1,18 +1,21 @@
-// TODO #[serde(rename(deserialize="name1"))]
-#![allow(non_snake_case)]
+use std::fmt;
+#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct Error {
     pub code: i64,
     pub message: String,
 }
+#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct ErrorConsignmentSet {
     pub error: Error
 }
+#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct Json {
     pub consignmentSet: Vec<ErrorConsignmentSet>,
 }
+#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct PackagesetSenderaddress {
     pub addressLine1: Option<String>,
@@ -22,15 +25,18 @@ pub struct PackagesetSenderaddress {
     pub countryCode: Option<String>,
     pub country: Option<String>,
 }
+#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct Recipientsignature {
     pub name: Option<String>,
 }
+#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct EventsetDefinition {
     pub term: Option<String>,
     pub explanation: Option<String>,
 }
+#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct Eventset {
     pub description: Option<String>,
@@ -49,6 +55,7 @@ pub struct Eventset {
     pub definitions: Option<Vec<EventsetDefinition>>,
     pub unitInformationUrl: Option<String>,
 }
+#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct Packageset {
     pub statusDescription: Option<String>,
@@ -70,6 +77,7 @@ pub struct Packageset {
     pub recipientHandlingAddress: Option<PackagesetSenderaddress>,
     pub eventSet: Vec<Eventset>,
 }
+#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct Consignmentset {
     pub consignmentId: Option<String>,
@@ -82,6 +90,7 @@ pub struct Consignmentset {
     pub totalWeightInKgs: Option<f64>,
     pub totalVolumeInDm3: Option<f64>,
 }
+#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct BringResponse {
     pub consignmentSet: Vec<Consignmentset>,

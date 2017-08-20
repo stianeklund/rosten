@@ -1,21 +1,13 @@
 [package]
 name = "rosten"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Stian Eklund <stian.eklund@gmail.com>"]
-build= "build.rs"
-
-[features]
-default = ["serde_codegen"]
-nightly = ["serde_macros"]
-
-[build-dependencies]
-serde_codegen = { version = "*", optional = true }
 
 [dependencies]
 serde = "*"
-serde_macros = { version = "*", optional = true }
 serde_json = "*"
-hyper = "*"
+serde_derive = "*"
+reqwest = "0.7.3"
 clap = "*"
 
 
