@@ -24,7 +24,7 @@ pub fn main() {
 
     let input = matches.value_of("track").unwrap();
     let url = format!("https://tracking.bring.com/tracking.json?q={}", input);
-    let url = url.as_str(); // convert &str into a String
+    let url = url.as_str();
 
     fn get_content(url: &str) -> Result<String, reqwest::Error> {
         let mut result = String::new();
