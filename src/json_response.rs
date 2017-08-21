@@ -1,97 +1,86 @@
-use std::fmt;
-#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct Error {
     pub code: i64,
     pub message: String,
 }
-#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct ErrorConsignmentSet {
     pub error: Error
 }
-#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct Json {
-    pub consignmentSet: Vec<ErrorConsignmentSet>,
+    pub consignment_set: Vec<ErrorConsignmentSet>,
 }
-#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct PackagesetSenderaddress {
-    pub addressLine1: Option<String>,
-    pub addressLine2: Option<String>,
-    pub postalCode: Option<String>,
+    pub address_line1: Option<String>,
+    pub address_line2: Option<String>,
+    pub postal_code: Option<String>,
     pub city: Option<String>,
-    pub countryCode: Option<String>,
+    pub country_code: Option<String>,
     pub country: Option<String>,
 }
-#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct Recipientsignature {
     pub name: Option<String>,
 }
-#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct EventsetDefinition {
     pub term: Option<String>,
     pub explanation: Option<String>,
 }
-#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
-pub struct Eventset {
+pub struct EventSet {
     pub description: Option<String>,
     pub status: Option<String>,
-    pub recipientSignature: Option<Recipientsignature>,
-    pub unitId: Option<String>,
-    pub unitType: Option<String>,
-    pub postalCode: Option<String>,
+    pub recipient_signature: Option<Recipientsignature>,
+    pub unit_id: Option<String>,
+    pub unit_type: Option<String>,
+    pub postal_code: Option<String>,
     pub city: Option<String>,
-    pub countryCode: Option<String>,
+    pub country_code: Option<String>,
     pub country: Option<String>,
-    pub dateIso: Option<String>,
-    pub displayDate: Option<String>,
-    pub displayTime: Option<String>,
-    pub consignmentEvent: Option<bool>,
+    pub date_iso: Option<String>,
+    pub display_date: Option<String>,
+    pub display_time: Option<String>,
+    pub consignment_event: Option<bool>,
     pub definitions: Option<Vec<EventsetDefinition>>,
-    pub unitInformationUrl: Option<String>,
+    pub unit_information_url: Option<String>,
 }
-#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
-pub struct Packageset {
-    pub statusDescription: Option<String>,
+pub struct PackageSet {
+    pub status_description: Option<String>,
     pub descriptions: Option<Vec<String>>,
-    pub packageNumber: Option<String>,
-    pub previousPackageNumber: Option<String>,
-    pub productName: Option<String>,
-    pub productCode: Option<String>,
+    pub package_number: Option<String>,
+    pub previous_package_number: Option<String>,
+    pub product_name: Option<String>,
+    pub product_code: Option<String>,
     pub brand: Option<String>,
-    pub lengthInCm: Option<i64>,
-    pub widthInCm: Option<i64>,
-    pub heightInCm: Option<i64>,
-    pub volumeInDm3: Option<f64>,
-    pub weightInKgs: Option<f64>,
-    pub pickupCode: Option<String>,
-    pub dateOfReturn: Option<String>,
-    pub senderName: Option<String>,
-    pub senderAddress: Option<PackagesetSenderaddress>,
-    pub recipientHandlingAddress: Option<PackagesetSenderaddress>,
-    pub eventSet: Vec<Eventset>,
+    pub length_in_cm: Option<i64>,
+    pub width_in_cm: Option<i64>,
+    pub height_in_cm: Option<i64>,
+    pub volume_in_dm3: Option<f64>,
+    pub weight_in_kgs: Option<f64>,
+    pub pickup_code: Option<String>,
+    pub date_of_return: Option<String>,
+    pub sender_name: Option<String>,
+    pub sender_address: Option<PackagesetSenderaddress>,
+    pub recipient_handling_address: Option<PackagesetSenderaddress>,
+    pub event_set: Vec<Eventset>,
 }
-#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
-pub struct Consignmentset {
-    pub consignmentId: Option<String>,
-    pub previousConsignmentId: Option<String>,
-    pub packageSet: Vec<Packageset>,
-    pub senderName: Option<String>,
-    pub senderAddress: Option<PackagesetSenderaddress>,
-    pub recipientHandlingAddress: Option<PackagesetSenderaddress>,
-    pub senderReference: Option<String>,
-    pub totalWeightInKgs: Option<f64>,
-    pub totalVolumeInDm3: Option<f64>,
+pub struct ConsignmentSet {
+    pub consignment_id: Option<String>,
+    pub previous_consignment_id: Option<String>,
+    pub package_set: Vec<Packageset>,
+    pub sender_name: Option<String>,
+    pub sender_address: Option<PackagesetSenderaddress>,
+    pub recipient_handling_address: Option<PackagesetSenderaddress>,
+    pub sender_reference: Option<String>,
+    pub total_weight_in_kgs: Option<f64>,
+    pub total_volume_in_dm3: Option<f64>,
 }
-#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct BringResponse {
-    pub consignmentSet: Vec<Consignmentset>,
+    pub consignment_set: Vec<ConsignmentSet>,
 }

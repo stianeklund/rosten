@@ -39,24 +39,24 @@ pub fn main() {
         let deserialized: Result<BringResponse, serde_json::Error> = serde_json::from_str(&buf);
         match deserialized {
             Ok(deserialized) => {
-                let sets = deserialized.consignmentSet;
+                let sets = deserialized.consignment_set;
                 for i in 0..sets.len() {
                     let consignment_set = &sets[i];
 
-                    for x in 0..consignment_set.packageSet.len() {
-                        let package_set = &consignment_set.packageSet[x];
+                    for x in 0..consignment_set.package_set.len() {
+                        let package_set = &consignment_set.package_set[x];
 
-                        match consignment_set.packageSet[x] {
-                            Packageset {
-                                productName: Some(ref productName),
-                                packageNumber: Some(ref packageNumber),
+                        match consignment_set.package_set[x] {
+                            PackageSet {
+                                product_name: Some(ref product_name),
+                                package_number: Some(ref package_number),
                                 ..
-                            } => println!("Product Name: {}\nPackage number: {}", productName, packageNumber),
+                            } => println!("Product Name: {}\nPackage number: {}", product_name, package_number),
                             _ => println!("Not covered"),
                         }
-                        for n in 0..package_set.eventSet.len() {
-                            match package_set.eventSet[n] {
-                                Eventset {
+                        for n in 0..package_set.event_set.len() {
+                            match package_set.event_set[n] {
+                                EventSet {
                                     description: Some(ref description),
                                     status: Some(ref status), ..
                                 } => println!("Description: {}\nStatus: {}", description, status),
