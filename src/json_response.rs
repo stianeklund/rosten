@@ -3,15 +3,18 @@ pub struct Error {
     pub code: i64,
     pub message: String,
 }
+
 #[derive(Deserialize, Debug)]
 pub struct ErrorConsignmentSet {
-    pub error: Error
+    pub error: Error,
 }
+
 #[derive(Deserialize, Debug)]
-#[serde(rename="consignmentSet")]
+#[serde(rename = "consignmentSet")]
 pub struct Json {
     pub consignment_set: Vec<ErrorConsignmentSet>,
 }
+
 #[serde(rename_all = "camelCase")]
 #[derive(Deserialize, Debug)]
 pub struct PackagesetSenderaddress {
@@ -22,15 +25,18 @@ pub struct PackagesetSenderaddress {
     pub country_code: Option<String>,
     pub country: Option<String>,
 }
+
 #[derive(Deserialize, Debug)]
 pub struct Recipientsignature {
     pub name: Option<String>,
 }
+
 #[derive(Deserialize, Debug)]
 pub struct EventsetDefinition {
     pub term: Option<String>,
     pub explanation: Option<String>,
 }
+
 #[serde(rename_all = "camelCase")]
 #[derive(Deserialize, Debug)]
 pub struct Eventset {
@@ -50,6 +56,7 @@ pub struct Eventset {
     pub definitions: Option<Vec<EventsetDefinition>>,
     pub unit_information_url: Option<String>,
 }
+
 #[serde(rename_all = "camelCase")]
 #[derive(Deserialize, Debug)]
 pub struct Packageset {
@@ -72,6 +79,7 @@ pub struct Packageset {
     pub recipient_handling_address: Option<PackagesetSenderaddress>,
     pub event_set: Vec<Eventset>,
 }
+
 #[serde(rename_all = "camelCase")]
 #[derive(Deserialize, Debug)]
 pub struct Consignmentset {
@@ -85,6 +93,7 @@ pub struct Consignmentset {
     pub total_weight_in_kgs: Option<f64>,
     pub total_volume_in_dm3: Option<f64>,
 }
+
 #[serde(rename_all = "camelCase")]
 #[derive(Deserialize, Debug)]
 pub struct BringResponse {

@@ -2,12 +2,13 @@
 name = "rosten"
 version = "0.1.1"
 authors = ["Stian Eklund <stian.eklund@gmail.com>"]
+edition = "2018"
 
 [dependencies]
 serde = "*"
 serde_json = "*"
 serde_derive = "*"
-reqwest = "0.7.3"
 clap = "*"
-
-
+hyper = "0.13.5"
+reqwest = { version = "0.10", features = ["json"] }
+tokio = { version = "0.2", features = ["full"] }
